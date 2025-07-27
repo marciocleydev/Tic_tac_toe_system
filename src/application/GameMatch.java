@@ -115,41 +115,31 @@ public class GameMatch {
         return new Piece(type);
     }
 
-    public boolean checkWinner(Type type) {
-        Piece[][] pieces = board.getPicies();
-        //winnerInLine
-        if (!isNull(pieces[0][0], pieces[0][1], pieces[0][2]) && pieces[0][0].getPieceType() == type && pieces[0][1].getPieceType() == type && pieces[0][2].getPieceType() == type) {
-            gameOver = true;
-        }
-        if (!isNull(pieces[1][0], pieces[1][1], pieces[1][2]) && pieces[1][0].getPieceType() == type && pieces[1][1].getPieceType() == type && pieces[1][2].getPieceType() == type) {
-            gameOver = true;
-        }
-        if (!isNull(pieces[2][0], pieces[2][1], pieces[2][2]) && pieces[2][0].getPieceType() == type && pieces[2][1].getPieceType() == type && pieces[2][2].getPieceType() == type) {
-            gameOver = true;
-        }
-        //winnerInColumn
-        if (!isNull(pieces[0][0], pieces[1][0], pieces[2][0]) && pieces[0][0].getPieceType() == type && pieces[1][0].getPieceType() == type && pieces[2][0].getPieceType() == type) {
-            gameOver = true;
-        }
-        if (!isNull(pieces[0][1], pieces[1][1], pieces[2][1]) && pieces[0][1].getPieceType() == type && pieces[1][1].getPieceType() == type && pieces[2][1].getPieceType() == type) {
-            gameOver = true;
-        }
-        if (!isNull(pieces[0][2], pieces[1][2], pieces[2][2]) && pieces[0][2].getPieceType() == type && pieces[1][2].getPieceType() == type && pieces[2][2].getPieceType() == type) {
-            gameOver = true;
-            ;
-        }
-        //winnerInDiagonal1
-        if (!isNull(pieces[0][0], pieces[1][1], pieces[2][2]) && pieces[0][0].getPieceType() == type && pieces[1][1].getPieceType() == type && pieces[2][2].getPieceType() == type) {
-            gameOver = true;
-        }
-        //winnerInDiagonal2
-        if (!isNull(pieces[2][0], pieces[1][1], pieces[0][2]) && pieces[2][0].getPieceType() == type && pieces[1][1].getPieceType() == type && pieces[0][2].getPieceType() == type) {
-            gameOver = true;
-        }
-
-        return gameOver;
-
+    private boolean isWinningLine(Piece a, Piece b, Piece c, Type type) {
+        return !isNull(a, b, c) &&
+                a.getPieceType() == type &&
+                b.getPieceType() == type &&
+                c.getPieceType() == type;
     }
+
+    public boolean checkWinner(Type type) {
+        Piece[][] p = board.getPicies();
+
+        for (int i = 0; i < 3; i++) {
+            if (isWinningLine(p[i][0], p[i][1], p[i][2], type) || // row
+                    isWinningLine(p[0][i], p[1][i], p[2][i], type)) { // column
+                return gameOver = true;
+            }
+        }
+
+        if (isWinningLine(p[0][0], p[1][1], p[2][2], type) || // main diagonal
+                isWinningLine(p[0][2], p[1][1], p[2][0], type)) { // secondary diagonal
+            return gameOver = true;
+        }
+
+        return false;
+    }
+
 
     private boolean isNull(Piece piece1, Piece piece2, Piece piece3) {
         return piece1 == null || piece2 == null || piece3 == null;
