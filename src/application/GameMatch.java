@@ -94,9 +94,6 @@ public class GameMatch {
                 sc.nextLine();
                 sc.nextLine();
             }
-            finally {
-                sc.close();
-            }
         }
     }
 

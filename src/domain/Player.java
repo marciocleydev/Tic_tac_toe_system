@@ -29,8 +29,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return " " + getName()
-                + "  ( " + getPlayertype()
-                + " )";
+        return String.format(" %-10s (%s)", getName(), getPlayertype());
     }
+
 }
