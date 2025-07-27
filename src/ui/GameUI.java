@@ -33,6 +33,7 @@ public class GameUI {
                 System.out.println("\n----------------");
             }
         }
+        System.out.println();
         if (!gameMatch.getDraw()){
             if (!gameMatch.isGameOver()){
                 input(gameMatch);
